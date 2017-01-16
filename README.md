@@ -15,6 +15,15 @@ Simply add the class to the required servers:
 
     class { '::mongodb_automation_agent': }
 
+By default this module will install the latest version of the agent provided by
+Mongo and will leave updates to be managed via Cloud Manager. However you can
+instruct Puppet to ensure a specific version of the agent is installed by
+passing the `agent_version` param.
+
+    class { '::mongodb_automation_agent':
+        agent_version => '3.3.1.1977-1',
+    }
+
 
 ## Requirements
 
