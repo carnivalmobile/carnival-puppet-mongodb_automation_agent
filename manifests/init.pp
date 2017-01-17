@@ -76,7 +76,7 @@ class mongodb_automation_agent (
   service { 'mongodb-mms-automation-agent':
     ensure   => 'running',
     enable   => true,
-    requires => File['mongo_agent_config']
+    require  => File['mongo_agent_config']
   }
 
 }
