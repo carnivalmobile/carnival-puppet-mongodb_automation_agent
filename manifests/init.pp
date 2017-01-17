@@ -56,14 +56,27 @@ class mongodb_automation_agent (
     require     => Exec['mongo_agent_download'],
     logoutput   => true,
     refreshonly => true,
+
+    # Ensure we always install, before we generate the config file as we require
+    # the directory and user to be present.
+    before      => File['mongo_agent_config']
   }
 
   # Generate the configuration file
-  file { '/etc/mongodb-mms/automation-agent.config':
+  file { 'mongo_agent_config':
+    ensure  => 'file',
+    path    => '/etc/mongodb-mms/automation-agent.config',
     owner   => 'mongodb',
     group   => 'mongodb',
     mode    => '0755',
     content => template('mongodb_automation_agent/automation-agents.config.erb'),
+  }
+
+  # Ensure service is running
+  service { 'mongodb-mms-automation-agent':
+    ensure   => 'running',
+    enable   => true,
+    requires => File['mongo_agent_config']
   }
 
 }
