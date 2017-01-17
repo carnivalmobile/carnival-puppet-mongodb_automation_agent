@@ -1,6 +1,8 @@
 # Installs the MongoDB automation agent.
 class mongodb_automation_agent (
   $agent_version = 'latest',
+  $agent_config_mmsgroupid,
+  $agent_config_mmsapikey,
 ) {
 
   Exec {
@@ -54,6 +56,14 @@ class mongodb_automation_agent (
     require     => Exec['mongo_agent_download'],
     logoutput   => true,
     refreshonly => true,
+  }
+
+  # Generate the configuration file
+  file { '/etc/mongodb-mms/automation-agent.config':
+    owner   => 'mongodb',
+    group   => 'mongodb',
+    mode    => '0755',
+    content => template('mongodb_automation_agent/automation-agents.config.erb'),
   }
 
 }
