@@ -68,7 +68,7 @@ class mongodb_automation_agent (
     path    => '/etc/mongodb-mms/automation-agent.config',
     owner   => 'mongodb',
     group   => 'mongodb',
-    mode    => '0755',
+    mode    => '0600',
     content => template('mongodb_automation_agent/automation-agents.config.erb'),
   }
 
